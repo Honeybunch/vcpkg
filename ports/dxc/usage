@@ -1,0 +1,3 @@
+The package dxc provides CMake integration:
+
+    find_program(dxc CONFIG REQUIRED)

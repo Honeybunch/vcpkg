@@ -1,0 +1,149 @@
+diff --git a/external/CMakeLists.txt b/external/CMakeLists.txt
+index 50180dc55..0bee8cabf 100644
+--- a/external/CMakeLists.txt
++++ b/external/CMakeLists.txt
+@@ -10,10 +10,13 @@ endif (NOT HLSL_ENABLE_DEBUG_ITERATORS)
+ # Enabling SPIR-V codegen requires SPIRV-Headers for spirv.hpp and
+ # SPIRV-Tools for SPIR-V disassembling functionality.
+ if (${ENABLE_SPIRV_CODEGEN})
+-  set(DXC_SPIRV_HEADERS_DIR "${DXC_EXTERNAL_ROOT_DIR}/SPIRV-Headers"
+-      CACHE STRING "Location of SPIRV-Headers source")
+-  set(DXC_SPIRV_TOOLS_DIR "${DXC_EXTERNAL_ROOT_DIR}/SPIRV-Tools"
+-      CACHE STRING "Location of SPIRV-Tools source")
++  find_path(SPIRV-Headers_SOURCE_DIR "spirv/1.0/GLSL.std.450.h")
++  find_package(SPIRV-Tools CONFIG REQUIRED)
++  find_package(SPIRV-Tools-opt CONFIG REQUIRED)
++
++  get_filename_component(SPIRV-Tools-inc_dir
++                       "${SPIRV-Tools_DIR}/../../include"
++                       ABSOLUTE)
+ 
+   if (NOT DEFINED SPIRV-Headers_SOURCE_DIR)
+     if (IS_DIRECTORY ${DXC_SPIRV_HEADERS_DIR})
+@@ -26,7 +29,7 @@ if (${ENABLE_SPIRV_CODEGEN})
+     set(SPIRV_HEADER_INCLUDE_DIR ${SPIRV-Headers_SOURCE_DIR}/include PARENT_SCOPE)
+   endif()
+ 
+-  if (NOT TARGET SPIRV-Tools)
++  if (NOT TARGET SPIRV-Tools-static)
+     if (IS_DIRECTORY ${DXC_SPIRV_TOOLS_DIR})
+       # We only need the library from SPIRV-Tools.
+       set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "Skip building SPIRV-Tools executables")
+@@ -36,10 +39,10 @@ if (${ENABLE_SPIRV_CODEGEN})
+       add_subdirectory(${DXC_SPIRV_TOOLS_DIR} EXCLUDE_FROM_ALL)
+     endif()
+   endif()
+-  if (NOT TARGET SPIRV-Tools)
++  if (NOT TARGET SPIRV-Tools-static)
+     message(FATAL_ERROR "SPIRV-Tools was not found - required for SPIR-V codegen")
+   else()
+-    set(SPIRV_TOOLS_INCLUDE_DIR ${spirv-tools_SOURCE_DIR}/include PARENT_SCOPE)
++    set(SPIRV_TOOLS_INCLUDE_DIR ${SPIRV-Tools-inc_dir} PARENT_SCOPE)
+   endif()
+ 
+   set(SPIRV_DEP_TARGETS
+diff --git a/tools/clang/lib/SPIRV/CMakeLists.txt b/tools/clang/lib/SPIRV/CMakeLists.txt
+index e3636fcdc..e33a03d67 100644
+--- a/tools/clang/lib/SPIRV/CMakeLists.txt
++++ b/tools/clang/lib/SPIRV/CMakeLists.txt
+@@ -2,6 +2,8 @@ set(LLVM_LINK_COMPONENTS
+   Support
+   )
+ 
++find_package(SPIRV-Tools-opt CONFIG REQUIRED)
++
+ add_clang_library(clangSPIRV
+   AlignmentSizeCalculator.cpp
+   AstTypeProbe.cpp
+diff --git a/tools/clang/tools/dxc/CMakeLists.txt b/tools/clang/tools/dxc/CMakeLists.txt
+index 376adf422..61bd99f5b 100644
+--- a/tools/clang/tools/dxc/CMakeLists.txt
++++ b/tools/clang/tools/dxc/CMakeLists.txt
+@@ -28,7 +28,12 @@ target_link_libraries(dxc
+   )
+ 
+ if(ENABLE_SPIRV_CODEGEN)
+-  target_link_libraries(dxc SPIRV-Tools)
++  find_package(SPIRV-Tools-opt CONFIG REQUIRED)
++  get_filename_component(SPIRV-Tools-inc_dir
++                        "${SPIRV-Tools_DIR}/../../include"
++                        ABSOLUTE)
++  target_link_libraries(dxc PRIVATE SPIRV-Tools-shared SPIRV-Tools-static)
++  target_include_directories(dxc PRIVATE ${SPIRV-Tools-inc_dir})
+ endif()
+ 
+ set_target_properties(dxc PROPERTIES VERSION ${CLANG_EXECUTABLE_VERSION})
+diff --git a/tools/clang/tools/dxclib/CMakeLists.txt b/tools/clang/tools/dxclib/CMakeLists.txt
+index 5eb001719..2f58a8490 100644
+--- a/tools/clang/tools/dxclib/CMakeLists.txt
++++ b/tools/clang/tools/dxclib/CMakeLists.txt
+@@ -21,7 +21,12 @@ add_clang_library(dxclib
+   )
+ 
+ if(ENABLE_SPIRV_CODEGEN)
+-  target_link_libraries(dxclib PRIVATE SPIRV-Tools)
++  find_package(SPIRV-Tools-opt CONFIG REQUIRED)
++  get_filename_component(SPIRV-Tools-inc_dir
++                        "${SPIRV-Tools_DIR}/../../include"
++                        ABSOLUTE)
++  target_link_libraries(dxclib PRIVATE SPIRV-Tools-shared SPIRV-Tools-static)
++  target_include_directories(dxclib PRIVATE ${SPIRV-Tools-inc_dir})
+ endif()
+ 
+ if (WIN32)
+diff --git a/utils/GetCommitInfo.py b/utils/GetCommitInfo.py
+index bbb4675ad..853226f70 100644
+--- a/utils/GetCommitInfo.py
++++ b/utils/GetCommitInfo.py
+@@ -5,19 +5,11 @@ import subprocess
+ 
+ 
+ def git_get_commit_hash():
+-    try:
+-        return subprocess.check_output(
+-            ['git', 'rev-parse', '--short=8', 'HEAD']).decode('ascii').strip()
+-    except subprocess.CalledProcessError:
+-        return "00000000"
++    return "00000000"
+ 
+ 
+ def git_get_commit_count():
+-    try:
+-        return subprocess.check_output(
+-            ['git', 'rev-list', '--count', 'HEAD']).decode('ascii').strip()
+-    except subprocess.CalledProcessError:
+-        return 0
++    return 0
+ 
+ 
+ def compose_commit_namespace(git_count, git_hash):
+diff --git a/utils/version/gen_version.py b/utils/version/gen_version.py
+index b50321a9f..031e20236 100644
+--- a/utils/version/gen_version.py
++++ b/utils/version/gen_version.py
+@@ -36,22 +36,13 @@ def get_output_of(cmd):
+     return output.decode('ASCII').strip()
+ 
+ def get_last_commit_sha():
+-    try:
+-        return get_output_of([ "git", "describe", "--always", "--dirty" ])
+-    except subprocess.CalledProcessError:
+-        return "00000000"
++    return "00000000"
+ 
+ def get_current_branch():
+-    try:
+-        return get_output_of([ "git", "rev-parse", "--abbrev-ref", "HEAD" ])
+-    except subprocess.CalledProcessError:
+-        return "private"
++    return "private"
+ 
+ def get_commit_count(sha):
+-    try:
+-        return get_output_of([ "git", "rev-list", "--count", sha ])
+-    except subprocess.CalledProcessError:
+-        return 0
++    return 0
+     
+ def read_latest_release_info():
+     latest_release_file = os.path.join(os.path.dirname(os.path.abspath( __file__)), "latest-release.json")
