@@ -30,3 +30,25 @@ index 4b0b71b..9c3869b 100644
  endif()
  
  # -----------------------------------------------------
+diff --git a/cmake/volkConfig.cmake.in b/cmake/volkConfig.cmake.in
+index 6e45c37..d9e3434 100644
+--- a/cmake/volkConfig.cmake.in
++++ b/cmake/volkConfig.cmake.in
+@@ -10,12 +10,10 @@ if(NOT DEFINED VOLK_PULL_IN_VULKAN)
+ endif()
+ 
+ if(VOLK_PULL_IN_VULKAN)
+-  find_package(Vulkan QUIET)
+-  if(TARGET Vulkan::Vulkan) 
+-    add_dependencies(volk::volk Vulkan::Vulkan)
+-    add_dependencies(volk::volk_headers Vulkan::Vulkan)
+-  elseif(DEFINED ENV{VULKAN_SDK})
+-    target_include_directories(volk::volk INTERFACE "$ENV{VULKAN_SDK}/include")
+-    target_include_directories(volk::volk_headers INTERFACE "$ENV{VULKAN_SDK}/include")
++  # Using vulkan headers from vcpkg
++  find_path(VULKAN_HEADERS_INCLUDE_DIRS "vk_video/vulkan_video_codec_h264std.h")
++  if(TARGET volk)
++    target_include_directories(volk PUBLIC "${VULKAN_HEADERS_INCLUDE_DIRS}")
+   endif()
++  target_include_directories(volk_headers INTERFACE "${VULKAN_HEADERS_INCLUDE_DIRS}")
+ endif()
