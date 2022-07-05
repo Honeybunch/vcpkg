@@ -4,9 +4,11 @@ vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO zeux/volk
-    REF 1.3.204
-    SHA512 73108aff5bed08f711730948c80070a8d913f2ba2e7886232cd981272fe47bc85cff84eabfdf14d4261c658b58ee098a9bd837222f65323f304d6abcdbeb8613
+    REF sdk-1.3.216
+    SHA512 78f808ae08f069bc0507c2419913410c9ba3c41b9dbc02d2eeb591ba91c966a268a85fa9d52121ecab4597a15ba461e18f10b34ebaa320b2749734f08cfa1e8c
     HEAD_REF master
+    PATCHES
+        001-vcpkg-vulkan-headers.patch
 )
 
 vcpkg_cmake_configure(
