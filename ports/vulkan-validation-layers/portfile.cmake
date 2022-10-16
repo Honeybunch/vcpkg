@@ -1,9 +1,10 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KhronosGroup/Vulkan-ValidationLayers
-    REF 26dc8574c8ceafc901e1bbd7a0929da7e0a5df20
-    SHA512 825b4aacb14403c36ed4b000cf6c08355520f20d208251960a25e829017c826834ddd9405eea2e07c93987dacadf9d4ab84245a6a34fd9a2999d1e636726b27d
-    HEAD_REF sdk-1.3.204.1
+    REF 23540f64426726a78e16c9c036c08b1b6c994024
+    SHA512 c169835a521714ae2dea1992fc2418e5c7d09b2558e33e6be4fa13e6562720ddb6cd1df1df72b9a2bc81fcddb21f1994d0d82f012ad56dda42967092ea00cb47
+    PATCHES
+        vulkan-include.patch
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
@@ -21,3 +22,20 @@ vcpkg_cmake_configure(
 vcpkg_cmake_install()
 
 vcpkg_copy_pdbs()
+
+# Move libraries to bin directory
+file(MAKE_DIRECTORY "${CURRENT_PACKAGES_DIR}/bin/")
+file(MAKE_DIRECTORY "${CURRENT_PACKAGES_DIR}/debug/bin/")
+file(RENAME
+    "${CURRENT_PACKAGES_DIR}/lib/VkLayer_khronos_validation.dll"
+    "${CURRENT_PACKAGES_DIR}/bin/VkLayer_khronos_validation.dll"
+)
+file(RENAME
+    "${CURRENT_PACKAGES_DIR}/debug/lib/VkLayer_khronos_validation.dll"
+    "${CURRENT_PACKAGES_DIR}/debug/bin/VkLayer_khronos_validation.dll"
+)
+# This port has no includes
+file(MAKE_DIRECTORY "${CURRENT_PACKAGES_DIR}/include/")
+file(TOUCH "${CURRENT_PACKAGES_DIR}/include/dummy.h")
+
+file(INSTALL "${SOURCE_PATH}/LICENSE.txt" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)

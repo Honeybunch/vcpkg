@@ -9,10 +9,10 @@ vcpkg_find_acquire_program(PYTHON3)
 get_filename_component(PYTHON3_DIR "${PYTHON3}" DIRECTORY)
 vcpkg_add_to_path("${PYTHON3_DIR}")
 
-if(VCPKG_TARGET_IS_IOS)
-    message(STATUS "Using iOS trplet. Executables won't be created...")
+if(VCPKG_TARGET_IS_IOS OR VCPKG_TARGET_IS_ANDROID)
+    message(STATUS "Using iOS / Android triplet. Executables won't be created...")
     set(TOOLS_INSTALL OFF)
-    set(SKIP_EXECUTABLES ON) 
+    set(SKIP_EXECUTABLES ON)
 else()
     set(TOOLS_INSTALL ON)
     set(SKIP_EXECUTABLES OFF)
@@ -32,7 +32,7 @@ vcpkg_cmake_configure(
 
 vcpkg_cmake_install()
  # the directory name is capitalized as opposed to the port name
-if(WIN32)
+if(VCPKG_TARGET_IS_WINDOWS OR VCPKG_TARGET_IS_MINGW)
     vcpkg_cmake_config_fixup(CONFIG_PATH SPIRV-Tools/cmake PACKAGE_NAME SPIRV-Tools)
     vcpkg_cmake_config_fixup(CONFIG_PATH SPIRV-Tools-link/cmake PACKAGE_NAME SPIRV-Tools-link)
     vcpkg_cmake_config_fixup(CONFIG_PATH SPIRV-Tools-lint/cmake PACKAGE_NAME SPIRV-Tools-lint)

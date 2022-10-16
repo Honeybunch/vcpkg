@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5b7fe6875..7295ecc78 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -122,14 +122,13 @@ if (TARGET Vulkan::Headers)
+     get_target_property(VulkanHeaders_INCLUDE_DIRS Vulkan::Headers INTERFACE_INCLUDE_DIRECTORIES)
+     get_target_property(VulkanRegistry_DIR Vulkan::Registry INTERFACE_INCLUDE_DIRECTORIES)
+ else()
+-    find_package(VulkanHeaders REQUIRED)
+-
+-    # xxxnsubtil: this should eventually be replaced by exported targets
+-    add_library(Vulkan-Headers INTERFACE)
+-    target_include_directories(Vulkan-Headers INTERFACE ${VulkanHeaders_INCLUDE_DIRS})
++    find_package(VulkanHeaders CONFIG REQUIRED)
+     add_library(Vulkan::Headers ALIAS Vulkan-Headers)
++    get_target_property(VulkanHeaders_INCLUDE_DIRS Vulkan-Headers INTERFACE_INCLUDE_DIRECTORIES)
++    get_target_property(VulkanRegistry_DIR Vulkan-Registry INTERFACE_INCLUDE_DIRECTORIES)
+ endif()
+ 
++
+ option(USE_CCACHE "Use ccache" OFF)
+ if(USE_CCACHE)
+     find_program(CCACHE_FOUND ccache)
