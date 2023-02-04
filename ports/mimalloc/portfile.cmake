@@ -24,7 +24,7 @@ vcpkg_cmake_configure(
     OPTIONS_RELEASE
         -DMI_DEBUG_FULL=OFF
     OPTIONS
-        -DMI_USE_CXX=ON
+        -DMI_USE_CXX=OFF
         -DMI_BUILD_TESTS=OFF
         -DMI_BUILD_OBJECT=OFF
         ${FEATURE_OPTIONS}
