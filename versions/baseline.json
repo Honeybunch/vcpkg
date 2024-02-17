@@ -7868,12 +7868,12 @@
       "baseline": "0.16.1",
       "port-version": 8
     },
-    "sdl3-mixer": {
-      "baseline": "3.0.0-087004f",
+    "sdl3": {
+      "baseline": "3.0.0-534f753",
       "port-version": 0
     },
-    "sdl3": {
-      "baseline": "3.0.0-8d25c2d",
+    "sdl3-mixer": {
+      "baseline": "3.0.0-087004f",
       "port-version": 0
     },
     "seacas": {
