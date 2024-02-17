@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4ad2755c..e2f7fdc8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1113,7 +1113,7 @@ if(SDL3MIXER_INSTALL)
+         )
+     endif()
+ 
+-    if(WIN32 AND NOT MINGW)
++    if(1)
+         set(SDL3MIXER_INSTALL_CMAKEDIR_ROOT_DEFAULT "cmake")
+     else()
+         set(SDL3MIXER_INSTALL_CMAKEDIR_ROOT_DEFAULT "${CMAKE_INSTALL_LIBDIR}/cmake")
+@@ -1121,7 +1121,7 @@ if(SDL3MIXER_INSTALL)
+     set(SDL3MIXER_INSTALL_CMAKEDIR_ROOT "${SDL3MIXER_INSTALL_CMAKEDIR_ROOT_DEFAULT}" CACHE STRING "Root folder where to install SDL3_mixerConfig.cmake related files (SDL3_mixer subfolder for non-MSVC projects)")
+     set(SDLMIXER_PKGCONFIG_INSTALLDIR "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+ 
+-    if(WIN32 AND NOT MINGW)
++    if(1)
+         set(SDL3MIXER_INSTALL_CMAKEDIR "${SDL3MIXER_INSTALL_CMAKEDIR_ROOT}")
+         set(LICENSES_PREFIX "licenses/SDL3_mixer")
+     else()

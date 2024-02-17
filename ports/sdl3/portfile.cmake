@@ -57,7 +57,7 @@ vcpkg_cmake_configure(
 vcpkg_cmake_install()
 vcpkg_cmake_config_fixup(
     PACKAGE_NAME "SDL3"
-    CONFIG_PATH "lib/cmake"
+    CONFIG_PATH "cmake"
 )
 
 file(REMOVE_RECURSE

@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 598500555..68686c0db 100644
+index 598500555..41a9b5117 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -3135,7 +3135,7 @@ endif()
@@ -7,7 +7,7 @@ index 598500555..68686c0db 100644
  ##### Configure installation folders #####
  
 -if(WINDOWS AND NOT MINGW)
-+if(0)
++if(1)
    set(SDL_INSTALL_CMAKEDIR_ROOT_DEFAULT "cmake")
  else()
    set(SDL_INSTALL_CMAKEDIR_ROOT_DEFAULT "${CMAKE_INSTALL_LIBDIR}/cmake")
@@ -16,7 +16,7 @@ index 598500555..68686c0db 100644
  endif()
  
 -if(WINDOWS AND NOT MINGW)
-+if(0)
++if(NOT SDL_FRAMEWORK)
    set(SDL_INSTALL_CMAKEDIR "${SDL_INSTALL_CMAKEDIR_ROOT}")
    set(SDL_INSTALL_LICENSEDIR "licenses/SDL3")
    set(SDL_INSTALL_HEADERSDIR "${CMAKE_INSTALL_INCLUDEDIR}/SDL3")
