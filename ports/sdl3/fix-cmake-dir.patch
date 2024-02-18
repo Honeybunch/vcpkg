@@ -1,8 +1,34 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 598500555..41a9b5117 100644
+index 598500555..94d686cac 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -3135,7 +3135,7 @@ endif()
+@@ -1344,14 +1344,13 @@ if(ANDROID)
+         SOURCES ${SDL_JAVA_SOURCES}
+         INCLUDE_JARS "${path_android_jar}"
+         OUTPUT_NAME "SDL3"
+-        VERSION "${SDL3_VERSION}"
+       )
+-      set_property(TARGET SDL3-jar PROPERTY OUTPUT "${SDL3_BINARY_DIR}/SDL3-${SDL3_VERSION}.jar")
++      set_property(TARGET SDL3-jar PROPERTY OUTPUT "${SDL3_BINARY_DIR}/SDL3.jar")
+       add_library(SDL3__Jar INTERFACE)
+       add_library(SDL3::Jar ALIAS SDL3__Jar)
+       get_property(sdl3_jar_location TARGET SDL3-jar PROPERTY JAR_FILE)
+       set_property(TARGET SDL3__Jar PROPERTY JAR_FILE "${sdl3_jar_location}")
+-      set(javasourcesjar "${SDL3_BINARY_DIR}/SDL3-${SDL3_VERSION}-sources.jar")
++      set(javasourcesjar "${SDL3_BINARY_DIR}/SDL3-sources.jar")
+       string(REGEX REPLACE "${android_java_sources_root}/" "" sdl_relative_java_sources "${SDL_JAVA_SOURCES}")
+       add_custom_command(
+         OUTPUT "${javasourcesjar}"
+@@ -1362,7 +1361,7 @@ if(ANDROID)
+       add_custom_target(SDL3-javasources ALL DEPENDS "${javasourcesjar}")
+       if(NOT SDL_DISABLE_INSTALL_DOCS)
+         set(javadocdir "${SDL3_BINARY_DIR}/docs/javadoc")
+-        set(javadocjar "${SDL3_BINARY_DIR}/SDL3-${SDL3_VERSION}-javadoc.jar")
++        set(javadocjar "${SDL3_BINARY_DIR}/SDL3-javadoc.jar")
+         set(javadoc_index_html "${javadocdir}/index.html")
+         add_custom_command(
+           OUTPUT "${javadoc_index_html}"
+@@ -3135,7 +3134,7 @@ endif()
  
  ##### Configure installation folders #####
  
@@ -11,7 +37,7 @@ index 598500555..41a9b5117 100644
    set(SDL_INSTALL_CMAKEDIR_ROOT_DEFAULT "cmake")
  else()
    set(SDL_INSTALL_CMAKEDIR_ROOT_DEFAULT "${CMAKE_INSTALL_LIBDIR}/cmake")
-@@ -3149,7 +3149,7 @@ else()
+@@ -3149,7 +3148,7 @@ else()
    set(SDL_PKGCONFIG_INSTALLDIR "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
  endif()
  
@@ -20,3 +46,12 @@ index 598500555..41a9b5117 100644
    set(SDL_INSTALL_CMAKEDIR "${SDL_INSTALL_CMAKEDIR_ROOT}")
    set(SDL_INSTALL_LICENSEDIR "licenses/SDL3")
    set(SDL_INSTALL_HEADERSDIR "${CMAKE_INSTALL_INCLUDEDIR}/SDL3")
+@@ -3357,7 +3356,7 @@ if(NOT SDL_DISABLE_INSTALL)
+       )
+     endif()
+     if(TARGET SDL3-javasources)
+-      install(FILES  "${SDL3_BINARY_DIR}/SDL3-${SDL3_VERSION}-sources.jar"
++      install(FILES  "${SDL3_BINARY_DIR}/SDL3-sources.jar"
+         DESTINATION "${SDL_INSTALL_JAVADIR}/SDL3")
+     endif()
+   endif()

@@ -36,6 +36,12 @@ if(VCPKG_TARGET_IS_UWP)
     set(configure_opts WINDOWS_USE_MSBUILD)
 endif()
 
+if(VCPKG_TARGET_IS_ANDROID)
+    set(DISABLE_ANDROID_JAR 0)
+else()
+    set(DISABLE_ANDROID_JAR 1)
+endif()
+
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     ${configure_opts}
@@ -49,6 +55,7 @@ vcpkg_cmake_configure(
         -DSDL_INSTALL_CMAKEDIR="cmake"
         -DCMAKE_DISABLE_FIND_PACKAGE_Git=ON
         -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=ON
+        -DSDL_DISABLE_ANDROID_JAR=${DISABLE_ANDROID_JAR}
     MAYBE_UNUSED_VARIABLES
         SDL_FORCE_STATIC_VCRT
         PKG_CONFIG_USE_CMAKE_PREFIX_PATH
