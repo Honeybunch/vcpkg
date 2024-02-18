@@ -55,3 +55,15 @@ index 598500555..94d686cac 100644
          DESTINATION "${SDL_INSTALL_JAVADIR}/SDL3")
      endif()
    endif()
+diff --git a/cmake/SDL3jarTargets.cmake.in b/cmake/SDL3jarTargets.cmake.in
+index 732d293ce..b51a56185 100644
+--- a/cmake/SDL3jarTargets.cmake.in
++++ b/cmake/SDL3jarTargets.cmake.in
+@@ -1,6 +1,6 @@
+ @PACKAGE_INIT@
+ 
+-set_and_check(SDL3_JAR "@PACKAGE_SDL_INSTALL_JAVADIR@/SDL3/SDL3-@SDL3_VERSION@.jar")
++set_and_check(SDL3_JAR "@PACKAGE_SDL_INSTALL_JAVADIR@/SDL3/SDL3.jar")
+ 
+ if(NOT TARGET SDL3::Jar)
+   add_library(SDL3::Jar INTERFACE IMPORTED)
