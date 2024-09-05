@@ -1,9 +1,9 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
-    REPO KhronosGroup/KTX-Software
-    REF "v${VERSION}"
-    SHA512 0077315fe2b4e676e97e3a158c2c6e1f6ba426e14ad23342592cd69be28cfce64c40614e0a84d58a9634877ab334e713b94d4c962132c98bfea308e91bc8a98a
-    HEAD_REF master
+    REPO Honeybunch/KTX-Software
+    REF "linux-fix"
+    SHA512 7de377d68a066900e3f5c5af2c5f826a9bb58f02e253d8dde3435072acb87614284368632088f78edfe777a8deba22175c8678a810cdd50fe0a69ff42ec6a62d
+    HEAD_REF "v${VERSION}"
     PATCHES
         0001-Use-vcpkg-zstd.patch
         0002-Fix-versioning.patch
