@@ -1,12 +1,9 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO libsdl-org/SDL
-    REF "534f753e2025040f25b56524bbe96ae26cabe177"
-    SHA512 8eb06a88903be052f337bca509be7ca243017e0aa842edbe62b3562df5863cabd2e276c75143e9e702e64ae1214c55b1ec8978af1833f2566f71f3d918aae10b
+    REF "6e5bd58c4cc637ea700d81b641b7cb44cd57fa6b"
+    SHA512 ef8777a7c0bba488a51d0b31c740bb74c90895993bec8ad1bfe11194b16b9adc02189c16a25a59462d4021c5586be2f13efdcc1c96a4c476adc4962dfa4df895
     HEAD_REF main
-    PATCHES
-      fix_khronos_exports.diff
-      fix-cmake-dir.patch
 )
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "static" SDL_STATIC)
