@@ -49,10 +49,11 @@ vcpkg_cmake_configure(
 
 vcpkg_cmake_install()
 vcpkg_copy_pdbs()
-vcpkg_cmake_config_fixup(
-    PACKAGE_NAME "SDL3_mixer"
-    CONFIG_PATH "cmake"
-)
+if(VCPKG_TARGET_IS_WINDOWS)
+    vcpkg_cmake_config_fixup(PACKAGE_NAME "SDL3_mixer" CONFIG_PATH "cmake")
+else()
+    vcpkg_cmake_config_fixup(PACKAGE_NAME "SDL3_mixer" CONFIG_PATH "lib/cmake/SDL3_mixer")
+endif()
 vcpkg_fixup_pkgconfig()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
