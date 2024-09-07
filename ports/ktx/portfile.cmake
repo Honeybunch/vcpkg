@@ -6,9 +6,9 @@ vcpkg_from_github(
     HEAD_REF master
     PATCHES
         0001-Use-vcpkg-zstd.patch
-        0002-Fix-versioning.patch
-        0003-mkversion.patch
-        0004-quirks.patch
+        #0002-Fix-versioning.patch
+        #0003-mkversion.patch
+        #0004-quirks.patch
         0005-no-vendored-libs.patch
         0006-fix-ios-install.patch
 )
