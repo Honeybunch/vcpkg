@@ -1,9 +1,9 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO libsdl-org/SDL_mixer
-    REF "00d06845cb2f0311af4aa27a35faf8e7492c5b87"
+    REF "124831c87e6e546ee905db38e1c2f6086fc3c18c"
     HEAD_REF main
-    SHA512 c5eb2c023bee6bd359197ae917f6e726b26731d8030a20aa9d634df65b04641c234eb25d294e5d7bd8af38ae98db08f470e7b0bba4834181a84d035ad5ce13f2
+    SHA512 4c1286eee6f9d1ab0e01f9e29ec7eb09749deccc409955b51bd462ecd6dd2d3e0461e9d0150f3f140e2c7eb551be5f5d8d9eaa453e307e4c84a017f46a74efd8
 )
 
 vcpkg_check_features(
