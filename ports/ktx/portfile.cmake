@@ -2,7 +2,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO Honeybunch/KTX-Software
     REF "linux-fix"
-    SHA512 7de377d68a066900e3f5c5af2c5f826a9bb58f02e253d8dde3435072acb87614284368632088f78edfe777a8deba22175c8678a810cdd50fe0a69ff42ec6a62d
+    SHA512 f97e9994f2bd88fa5b9c9bc899ba56144a215abd7ab42da2f0bfde50ddcfb68e8aca81fb316f45adf0fd19527b4282be9c2fbfb93c14d2a89b31da267b29945d
     HEAD_REF "v${VERSION}"
     PATCHES
         0001-Use-vcpkg-zstd.patch
