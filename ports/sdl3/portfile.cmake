@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO libsdl-org/SDL
-    REF "7df1caba7cf5d7659f901614c8bd059d1fe84990"
-    SHA512 4884d79bcb80d5a5f0d8dc979b067218460dca653eb483007c6c88e0d43dce7c21cd1f1eeae96b526ef4b623528c6a48d86a030d509cd6acd778517a10954477
+    REF "preview-3.1.3"
+    SHA512 60c489fbec3e9f5cbde57520edf20257c27facab3c44e8e9b719743ee5035e80221eb9403016bfbc696dfab834f955a81569539b3859171afafb8970b3a7a4dd
     HEAD_REF main
 )
 
@@ -27,16 +27,6 @@ if ("wayland" IN_LIST FEATURES)
 endif()
 if ("ibus" IN_LIST FEATURES)
     message(WARNING "You will need to install ibus dependencies to use feature ibus:\nsudo apt install libibus-1.0-dev\n")
-endif()
-
-if(VCPKG_TARGET_IS_UWP)
-    set(configure_opts WINDOWS_USE_MSBUILD)
-endif()
-
-if(VCPKG_TARGET_IS_ANDROID)
-    set(DISABLE_ANDROID_JAR 0)
-else()
-    set(DISABLE_ANDROID_JAR 1)
 endif()
 
 vcpkg_cmake_configure(
@@ -92,31 +82,6 @@ file(STRINGS "${SOURCE_PATH}/CMakeLists.txt" DYLIB_COMPATIBILITY_VERSION REGEX $
 file(STRINGS "${SOURCE_PATH}/CMakeLists.txt" DYLIB_CURRENT_VERSION REGEX ${DYLIB_CURRENT_VERSION_REGEX})
 string(REGEX REPLACE ${DYLIB_COMPATIBILITY_VERSION_REGEX} "\\1" DYLIB_COMPATIBILITY_VERSION "${DYLIB_COMPATIBILITY_VERSION}")
 string(REGEX REPLACE ${DYLIB_CURRENT_VERSION_REGEX} "\\1" DYLIB_CURRENT_VERSION "${DYLIB_CURRENT_VERSION}")
-
-if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
-    vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/sdl3.pc" "-lSDL3 " "-lSDL3d ")
-    vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/sdl3.pc" "-lSDL3-static " "-lSDL3-staticd ")
-endif()
-
-if(VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic" AND VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
-    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/lib/pkgconfig/sdl3.pc" "-lSDL3-static " " ")
-    endif()
-    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/sdl3.pc" "-lSDL3-staticd " " ")
-    endif()
-endif()
-
-if(VCPKG_TARGET_IS_UWP)
-    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/lib/pkgconfig/sdl3.pc" "$<$<CONFIG:Debug>:d>.lib" "")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/lib/pkgconfig/sdl3.pc" "-l-nodefaultlib:" "-nodefaultlib:")
-    endif()
-    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/sdl3.pc" "$<$<CONFIG:Debug>:d>.lib" "d")
-        vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig/sdl3.pc" "-l-nodefaultlib:" "-nodefaultlib:")
-    endif()
-endif()
 
 vcpkg_fixup_pkgconfig()
 
