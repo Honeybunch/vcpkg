@@ -8185,7 +8185,7 @@
       "port-version": 0
     },
     "sdl3-mixer": {
-      "baseline": "3.0.0-pre",
+      "baseline": "3.0.0-e32ba24",
       "port-version": 0
     },
     "seacas": {
