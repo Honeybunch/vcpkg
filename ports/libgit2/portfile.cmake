@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
-    REPO libgit2/libgit2
-    REF "v${VERSION}"
-    SHA512 b9ac2d0a7cc92a31057fbf066e47145cdda89ebf0489d712d4452c709c3de9923a93a3c37128fdcfd8fbb5498f513a519a7f2a77ad6ef4efafe865323d481f18
+    REPO Honeybunch/libgit2
+    REF "f8ad24c9f13ff42cf9a955f5b7c3f9cac60bc192"
+    SHA512 eda203f4e7f92f3253d898cff50651ca32e19ac7b91021d8bb47d81472abac3b03a74bef4906919e372c7f100ac62c74f852b425bb4294a2065739ab070a305b
     HEAD_REF main
     PATCHES
         c-standard.diff # for 'inline' in system headers

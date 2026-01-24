@@ -15,9 +15,9 @@ index 5be7bef..5f9ed79 100644
 index 0dddb02..af85510 100644
 --- a/src/libgit2/CMakeLists.txt
 +++ b/src/libgit2/CMakeLists.txt
-@@ -60,7 +60,7 @@ target_link_libraries(libgit2package ${LIBGIT2_SYSTEM_LIBS})
+@@ -63,7 +63,7 @@ target_link_libraries(libgit2package ${LIBGIT2_SYSTEM_LIBS})
  target_include_directories(libgit2package SYSTEM PRIVATE ${LIBGIT2_INCLUDES})
- target_include_directories(libgit2package INTERFACE $<INSTALL_INTERFACE:include>)
+ target_include_directories(libgit2package INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
  
 -set_target_properties(libgit2package PROPERTIES C_STANDARD 90)
 +set_target_properties(libgit2package PROPERTIES C_STANDARD 99)
